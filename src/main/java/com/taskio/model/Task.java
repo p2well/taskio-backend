@@ -35,4 +35,8 @@ public class Task {
     
     @Column(name = "due_date")
     private LocalDate dueDate;
+    
+    @Size(max = 50, message = "Category must not exceed 50 characters")
+    @Column(length = 50)
+    private String category;
 }

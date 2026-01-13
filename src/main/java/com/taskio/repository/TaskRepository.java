@@ -31,11 +31,17 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
            "(:searchTerm IS NULL OR LOWER(t.title) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(t.description) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) AND " +
            "(:status IS NULL OR t.status = :status) AND " +
            "(:startDate IS NULL OR t.dueDate >= :startDate) AND " +
-           "(:endDate IS NULL OR t.dueDate <= :endDate)")
+           "(:endDate IS NULL OR t.dueDate <= :endDate) AND " +
+           "(:category IS NULL OR t.category = :category)")
     List<Task> findBySearchAndFilters(
         @Param("searchTerm") String searchTerm,
         @Param("status") TaskStatus status,
         @Param("startDate") LocalDate startDate,
-        @Param("endDate") LocalDate endDate
+        @Param("endDate") LocalDate endDate,
+        @Param("category") String category
     );
+    
+    // Get distinct categories
+    @Query("SELECT DISTINCT t.category FROM Task t WHERE t.category IS NOT NULL ORDER BY t.category")
+    List<String> findDistinctCategories();
 }

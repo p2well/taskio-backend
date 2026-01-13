@@ -36,6 +36,7 @@ public class TaskService {
         task.setDescription(taskDetails.getDescription());
         task.setStatus(taskDetails.getStatus());
         task.setDueDate(taskDetails.getDueDate());
+        task.setCategory(taskDetails.getCategory());
         
         return taskRepository.save(task);
     }
@@ -62,20 +63,28 @@ public class TaskService {
         return taskRepository.findByDueDateBetween(startDate, endDate);
     }
     
-    public List<Task> searchAndFilter(String searchTerm, TaskStatus status, LocalDate startDate, LocalDate endDate) {
+    public List<Task> searchAndFilter(String searchTerm, TaskStatus status, LocalDate startDate, LocalDate endDate, String category) {
         // If all filters are null, return all tasks
         if ((searchTerm == null || searchTerm.trim().isEmpty()) && 
             status == null && 
             startDate == null && 
-            endDate == null) {
+            endDate == null && 
+            (category == null || category.trim().isEmpty())) {
             return getAllTasks();
         }
         
-        // Normalize search term
+        // Normalize search term and category
         String normalizedSearch = (searchTerm != null && !searchTerm.trim().isEmpty()) 
             ? searchTerm.trim() 
             : null;
+        String normalizedCategory = (category != null && !category.trim().isEmpty()) 
+            ? category.trim() 
+            : null;
         
-        return taskRepository.findBySearchAndFilters(normalizedSearch, status, startDate, endDate);
+        return taskRepository.findBySearchAndFilters(normalizedSearch, status, startDate, endDate, normalizedCategory);
+    }
+    
+    public List<String> getAllCategories() {
+        return taskRepository.findDistinctCategories();
     }
 }

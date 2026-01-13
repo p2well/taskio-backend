@@ -32,10 +32,17 @@ public class TaskController {
             @RequestParam(required = false) String q,
             @RequestParam(required = false) TaskStatus status,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(required = false) String category
     ) {
-        List<Task> tasks = taskService.searchAndFilter(q, status, startDate, endDate);
+        List<Task> tasks = taskService.searchAndFilter(q, status, startDate, endDate, category);
         return ResponseEntity.ok(tasks);
+    }
+    
+    @GetMapping("/categories")
+    public ResponseEntity<List<String>> getAllCategories() {
+        List<String> categories = taskService.getAllCategories();
+        return ResponseEntity.ok(categories);
     }
     
     @GetMapping("/{id}")
