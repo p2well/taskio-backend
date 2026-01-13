@@ -1,11 +1,11 @@
 services:
   - type: web
     name: taskio-backend
-    buildCommand: mvn clean install -DskipTests
-    startCommand: java -jar target/taskio-backend-1.0.0.jar
+    runtime: docker
+    plan: free
     healthCheckPath: /api/tasks
     envVars:
-      - key: JAVA_OPTS
-        value: -Xmx512m
       - key: SPRING_PROFILES_ACTIVE
         value: prod
+      - key: PORT
+        value: 8080
