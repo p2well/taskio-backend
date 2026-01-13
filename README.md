@@ -19,6 +19,10 @@ A Spring Boot REST API backend for the Taskio task management application.
 - Lombok
 - Maven
 
+## Development
+
+This project was developed with assistance from **GitHub Copilot**, an AI-powered pair programmer. AI assistance was used for code generation, architecture design, testing, and documentation.
+
 ## API Endpoints
 
 - `GET /api/tasks` - Retrieve all tasks
